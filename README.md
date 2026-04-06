@@ -30,7 +30,7 @@ grep -v "正常" logs/$(date '+%Y-%m-%d').log
 ## 停止
 
 ```bash
-kill $(pgrep -f network_monitor)
+kill $(cat monitor.pid)
 ```
 
 ## 日志格式

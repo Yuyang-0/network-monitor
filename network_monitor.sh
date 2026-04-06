@@ -1,9 +1,18 @@
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOG_DIR="$SCRIPT_DIR/logs"
+PID_FILE="$SCRIPT_DIR/monitor.pid"
 ROUTER="192.168.1.1"
 
+# 防止重复运行
+if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+    echo "已在运行中 (PID: $(cat "$PID_FILE"))"
+    exit 1
+fi
+
 mkdir -p "$LOG_DIR"
+echo $$ > "$PID_FILE"
+trap "rm -f '$PID_FILE'" EXIT
 
 get_log() {
     echo "$LOG_DIR/$(date '+%Y-%m-%d').log"
