@@ -1,14 +1,21 @@
 #!/bin/bash
-LOG=~/network_log.txt
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_DIR="$SCRIPT_DIR/logs"
 ROUTER="192.168.1.1"
 
-echo "开始监控: $(date)" >> "$LOG"
-echo "时间 | 路由器 | 外网 | 结论" >> "$LOG"
+mkdir -p "$LOG_DIR"
+
+get_log() {
+    echo "$LOG_DIR/$(date '+%Y-%m-%d').log"
+}
+
+echo "开始监控: $(date)" >> "$(get_log)"
 
 COUNTER=0
 
 while true; do
     TIME=$(date '+%Y-%m-%d %H:%M:%S')
+    LOG=$(get_log)
 
     # 测路由器连通性
     if curl -s --max-time 2 "http://$ROUTER" > /dev/null 2>&1; then
