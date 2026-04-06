@@ -17,12 +17,14 @@ nohup ./network_monitor.sh &
 
 ## 查看日志
 
+日志按天保存在 `logs/` 目录，文件名格式：`logs/2026-04-07.log`
+
 ```bash
-# 实时查看
-tail -f ~/network_log.txt
+# 实时查看今天的日志
+tail -f logs/$(date '+%Y-%m-%d').log
 
 # 只看异常
-grep -v "正常" ~/network_log.txt
+grep -v "正常" logs/$(date '+%Y-%m-%d').log
 ```
 
 ## 停止
